@@ -1,65 +1,34 @@
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
-import { Inject, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+import { DeleteCommand, GetCommand, PutCommand, ScanCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { Injectable } from '@nestjs/common';
+import { BookRepository } from './books.repository';
 
 
 @Injectable()
 export class BooksService {
-    constructor(@Inject('DYNAMODB_CLIENT') private readonly dynamoDbClient: DynamoDBDocumentClient){}
+    constructor(private readonly bookRepository: BookRepository){}
 
     async create(book: any ): Promise<any> {
-        const params = {
-          TableName: 'books', 
-          Item:{
-            id: uuidv4(),
-            ...book,
-          }
-           
-        };
-        await  this.dynamoDbClient.send(new PutCommand(params));
+        await  this.bookRepository.create(book);
         return { message: 'Book created successfully!' };
     }
 
     async getAll(): Promise<any>{
-        const params = {
-            TableName: 'books'
-        }
-        const books = await this.dynamoDbClient.send(new ScanCommand(params));
+        const books = await this.bookRepository.getAll();
         return books.Items || [];
     }
 
     async getById(bookId: string): Promise<any>{
-        const params = {
-            TableName: 'books',
-            Key: {id: bookId}
-        }
-        const book= await this.dynamoDbClient.send(new GetCommand(params));
+        const book= await this.bookRepository.getById(bookId);
         return book.Item;
     }
 
     async update(bookId: string, book: any): Promise<any>{
-        const params= {
-            TableName: 'books',
-            UpdateExpression: 'SET title = :title, description = :description, author = :author, price = :price',
-            ExpressionAttributeValues: {
-                ':title': book.title,
-                ':description': book.description,
-                ':author': book.author,
-                ':price': book.price,
-              },
-            Key: {id: bookId},
-            ReturnValues: 'ALL_NEW' as 'ALL_NEW',  
-        }
-        const result = await this.dynamoDbClient.send(new UpdateCommand(params));
+        const result = await this.bookRepository.update(bookId,book);
         return {message: 'Updated successfully', updatedBook: result.Attributes};
     }
 
     async delete(bookId: string): Promise<any>{
-        const params= {
-            TableName: 'books',
-            Key: {id: bookId}
-        }
-        await this.dynamoDbClient.send(new DeleteCommand(params));
+        await this.bookRepository.delete(bookId);
         return {message: 'Deleted successfully'}
     }
 }

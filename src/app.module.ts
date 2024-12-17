@@ -5,10 +5,11 @@ import { DynamodbModule } from './dynamodb/dynamodb.module';
 import { BooksService } from './books/books.service';
 import { BooksController } from './books/books.controller';
 import { BooksModule } from './books/books.module';
+import { BookRepository } from './books/books.repository';
 
 @Module({
   imports: [DynamodbModule, BooksModule],
   controllers: [AppController, BooksController],
-  providers: [AppService, BooksService],
+  providers: [AppService, BooksService, BookRepository],
 })
 export class AppModule {}

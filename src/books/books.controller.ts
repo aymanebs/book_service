@@ -19,7 +19,6 @@ export class BooksController {
 
     @Get('/:id')
     async getById(@Param('id') bookId: string): Promise<any>{
-        console.log('bookId',bookId);
         return await this.bookService.getById(bookId);
     }
 
