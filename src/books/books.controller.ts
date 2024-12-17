@@ -24,11 +24,11 @@ export class BooksController {
 
     @Put('/:id')
     async update(@Param('id') bookId: any,@Body() updateBookDto: UpdateBookDto): Promise<any>{
-        return this.bookService.update(bookId, updateBookDto);
+        return await  this.bookService.update(bookId, updateBookDto);
     }
 
     @Delete('/:id')
     async delete(@Param('id') bookId: any): Promise<any>{
-        return this.bookService.delete(bookId);
+        return await  this.bookService.delete(bookId);
     }
 }
