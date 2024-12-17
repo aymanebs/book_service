@@ -14,6 +14,8 @@ export class CreateBookDto{
 
     @IsNotEmpty()
     price: number;
-    
 
+    @IsNotEmpty()
+    genreId: string;
+    
 }
