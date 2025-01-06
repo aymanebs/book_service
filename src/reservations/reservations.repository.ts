@@ -1,9 +1,8 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DeleteCommand, GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { Inject } from '@nestjs/common';
 
 export class ReservationRepository {
-    constructor(@Inject() private readonly dynamoDbClient: DynamoDBClient) {}
+    constructor(@Inject('DYNAMODB_CLIENT')private readonly dynamoDbClient: DynamoDBDocumentClient) {}
 
     async create(reservationData: any): Promise<any> {
         const params = {

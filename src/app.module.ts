@@ -13,10 +13,12 @@ import { GenreRepository } from './genres/genres.repisotary';
 import { ReservationsController } from './reservations/reservations.controller';
 import { ReservationsService } from './reservations/reservations.service';
 import { ReservationsModule } from './reservations/reservations.module';
+import { ReservationRepository } from './reservations/reservations.repository';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [DynamodbModule, BooksModule, GenresModule, ReservationsModule],
-  controllers: [AppController, BooksController, GenresController, ReservationsController],
-  providers: [AppService, BooksService, BookRepository, GenreService, GenreRepository, ReservationsService],
+  controllers: [AppController, BooksController, GenresController, ReservationsController, HealthController],
+  providers: [AppService, BooksService, BookRepository, GenreService, GenreRepository, ReservationsService, ReservationRepository],
 })
 export class AppModule {}
