@@ -1,0 +1,106 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:043309325857:task-definition/BookTaskDefinitionFamily:2",
+    "containerDefinitions": [
+        {
+            "name": "book_service",
+            "image": "043309325857.dkr.ecr.us-east-1.amazonaws.com/book_service:latest",
+            "cpu": 0,
+            "memory": 2048,
+            "portMappings": [
+                {
+                    "name": "container-port",
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "SECRET_KEY_ID",
+                    "value": "${{ secrets.AWS_ACCESS_KEY_ID }}"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "${{ env.AWS_REGION }}"
+                },
+                {
+                    "name": "SECRET_ACCESS_KEY",
+                    "value": "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/BookTaskDefinitionFamily",
+                    "mode": "non-blocking",
+                    "awslogs-create-group": "true",
+                    "max-buffer-size": "25m",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "BookTaskDefinitionFamily",
+    "taskRoleArn": "arn:aws:iam::043309325857:role/MyEcsTaskRole",
+    "executionRoleArn": "arn:aws:iam::043309325857:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "revision": 2,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "registeredAt": "2024-12-31T17:41:45.227Z",
+    "registeredBy": "arn:aws:iam::043309325857:root",
+    "enableFaultInjection": false,
+    "tags": []
+}
