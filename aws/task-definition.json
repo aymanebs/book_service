@@ -2,7 +2,7 @@
     "taskDefinitionArn": "arn:aws:ecs:us-east-1:043309325857:task-definition/BookTaskDefinitionFamily:2",
     "containerDefinitions": [
         {
-            "name": "book_service",
+            "name": "${{env.CONTAINER_NAME}}",
             "image": "043309325857.dkr.ecr.us-east-1.amazonaws.com/book_service:latest",
             "cpu": 0,
             "memory": 2048,
